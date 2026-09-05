@@ -1,0 +1,18 @@
+# Python / 依赖
+**/.venv/
+**/__pycache__/
+**/*.pyc
+**/*.egg-info/
+
+# 日志与调试产物
+*.log
+_tpl_view/
+_screens/
+_temp/
+*.tmp
+
+# 原始压缩包（不作为源码提交）
+*.zip
+
+# 本地配置
+*.local
