@@ -175,11 +175,16 @@ def randomize_deck(emulator, logger: Logger, deck_number: int = 2) -> bool:
 
     Trophy Road, Classic 1v1, and Classic 2v2 all share the identical randomize-button
     flow, so we just confirm we're on one of those deck pages and run it. There is no
-    confirm dialog: deck-options -> randomize -> back to main. `deck_number` is accepted
-    for the caller's signature but unused by this flow.
+    confirm dialog: deck-options -> randomize -> back to main.
     """
     if not get_to_card_page_from_clash_main(emulator, logger):
         return False
+
+    # The original flow randomized whatever slot was currently showing and ignored
+    # deck_number. Select the requested slot first (template on the slot-tab row) so
+    # the user's "deck slot" setting actually takes effect. Non-fatal: if the slot
+    # tab can't be matched (e.g. template mismatch) we keep the current slot.
+    _select_deck_slot(emulator, logger, deck_number)
 
     on_known_deck_page = (
         check_if_on_trophy_road_deck_page(emulator)
@@ -202,3 +207,17 @@ def randomize_deck(emulator, logger: Logger, deck_number: int = 2) -> bool:
         logger.change_status("Undetected screen type. Not classic 1v1, nor 2v2, nor trophy road deck page!")
 
     return return_to_clash_main_from_card_page(emulator, logger)
+
+
+def _select_deck_slot(emulator, logger: Logger, deck_number: int) -> bool:
+    """Click the requested deck-slot tab at the top of the deck page so the
+    randomize flow acts on that slot instead of whatever slot is showing."""
+    ss = emulator.screenshot()
+    coords = find_image(ss, f"deck_tabs/deck_{deck_number}", subcrop=DECK_TABS_REGION, tolerance=0.98)
+    if coords is None:
+        logger.change_status(f"Deck slot #{deck_number} tab not found -- keeping current slot")
+        return False
+    emulator.click(coords[0] + 15, coords[1] + 15)
+    time.sleep(0.5)
+    logger.change_status(f"Switched to deck slot #{deck_number}")
+    return True

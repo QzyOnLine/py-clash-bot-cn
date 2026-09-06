@@ -4,8 +4,10 @@
 
 ## 说明
 
-本仓库**仅将以下功能适配到皇室战争国服**（腾讯版，包名 `com.tencent.tmgp.supercell.clashroyale`），
-用于个人在游戏内刷奖杯（Trophy Road）、皇冠（部落战）等游戏内奖励：
+本仓库**已完全适配皇室战争国服**（腾讯版，包名 `com.tencent.tmgp.supercell.clashroyale`），
+开发与测试使用 **MuMu Player 12 模拟器**（ADB 模式，分辨率 419x633@160dpi）。
+
+适配范围仅涉及以下功能，用于个人在游戏内刷奖杯（Trophy Road）、皇冠（部落战）等游戏内奖励：
 
 - **天梯对战**：Trophy Road / 经典 1v1 / 经典 2v2 的战斗流程与结算页识别
 - **部落聊天**：捐赠卡牌 / 请求卡牌 / 领取礼包

@@ -731,6 +731,24 @@ def check_if_on_card_page(emulator) -> bool:
     if all_pixels_are_equal(pixels, colors5, tol=25):
         return True
 
+    # colors6: CN (Tencent) client, re-sampled 2026-09-06. The tab-body pixels
+    # (landmarks 2/3/6/7) read the light-blue values colors1 already encodes
+    # (colors5's darker [209,68,41]-ish values no longer match after a client
+    # update), while the two 卡组 glyph landmarks (4/5) read blue/grey instead of
+    # the white "Deck" letters colors1 expects. Verified live: all 8 match tol=25.
+    colors6 = [
+        [221, 1, 234],
+        [255, 255, 255],
+        [204, 137, 43],
+        [196, 126, 34],
+        [199, 131, 37],
+        [98, 82, 62],
+        [179, 107, 16],
+        [178, 104, 16],
+    ]
+    if all_pixels_are_equal(pixels, colors6, tol=25):
+        return True
+
     return False
 
 
